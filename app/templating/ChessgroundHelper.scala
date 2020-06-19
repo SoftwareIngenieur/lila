@@ -32,7 +32,7 @@ trait ChessgroundHelper {
             val nonOuted = board.pieces.map {
               case (pos, piece) if piece.isMajor =>
                 s"""<square style="top:${top(pos)}%;left:${left(pos)}%"></square>"""
-
+case _ => ""
             }
             val pieces =
               if (ctx.pref.isBlindfold) ""
