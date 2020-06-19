@@ -56,7 +56,10 @@ object BSONHandlers {
             black = Pocket(black.map(_.role))
           )
         },
-        promoted = r.str("t").view.flatMap(chess.Pos.piotr).to(Set)
+        promoted = r.str("t").view.flatMap(chess.Pos.piotr).to(Set),
+          Map.empty,
+    Set.empty,
+    Map.empty
       )
 
     def writes(w: BSON.Writer, o: Crazyhouse.Data) =
@@ -65,7 +68,10 @@ object BSONHandlers {
           o.pockets.white.roles.map(_.forsythUpper).mkString +
             o.pockets.black.roles.map(_.forsyth).mkString
         },
-        "t" -> o.promoted.map(_.piotr).mkString
+        "t" -> o.promoted.map(_.piotr).mkString,
+        "g" -> "a",
+        "h" -> "a",
+        "i" -> "a"
       )
   }
 
