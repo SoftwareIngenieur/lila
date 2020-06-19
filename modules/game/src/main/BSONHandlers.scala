@@ -1,23 +1,12 @@
 package lila.game
 
 import chess.format.FEN
-import chess.variant.{ Crazyhouse, Variant }
-import chess.{
-  CheckCount,
-  Color,
-  Clock,
-  White,
-  Black,
-  Status,
-  Mode,
-  UnmovedRooks,
-  History => ChessHistory,
-  Game => ChessGame
-}
+import chess.variant.{Crazyhouse, Variant}
+import chess.{Black, CheckCount, Clock, Color, Mode, Pos, Status, UniquePiece, UnmovedRooks, White, Game => ChessGame, History => ChessHistory}
 import org.joda.time.DateTime
 import reactivemongo.api.bson._
-import scala.util.{ Success, Try }
 
+import scala.util.{Success, Try}
 import lila.db.BSON
 import lila.db.dsl._
 
@@ -57,10 +46,19 @@ object BSONHandlers {
           )
         },
         promoted = r.str("t").view.flatMap(chess.Pos.piotr).to(Set),
-          Map.empty,
-    Set.empty,
-    Map.empty
+        pieceMap=  Map.empty,
+     //   pieceMap = r.getsD[(UniquePiece,Pos)]("pm").toMap,
+      listOfOuts= Set.empty,
+        listOfTurnsAndUniquPiecesMoved = Map.empty,
+       listOfOutPos=r.getsD[String]("dec").map(Pos.posAt(_)).collect{case Some(pos) => pos}.toSeq
+      //  listOfTurnsAndUniquPiecesMoved = r.getsD[(Int,Option[UniquePiece])]("frz").toMap
       )
+
+    def getListOfOutPos(o: Data): List[String] = {
+      o.listOfOuts.map(o.pieceMap.get(_)).collect{
+        case Some(pos) => pos.key
+      }.toSeq.toList
+    }
 
     def writes(w: BSON.Writer, o: Crazyhouse.Data) =
       BSONDocument(
@@ -69,9 +67,10 @@ object BSONHandlers {
             o.pockets.black.roles.map(_.forsyth).mkString
         },
         "t" -> o.promoted.map(_.piotr).mkString,
-        "g" -> "a",
-        "h" -> "a",
-        "i" -> "a"
+      //  "pm" -> w.listO(o.pieceMap.toList),
+        "dec" ->   w.strListO(getListOfOutPos(o))
+
+      //  "frz" -> w.listO(o.listOfTurnsAndUniquPiecesMoved.toList)
       )
   }
 

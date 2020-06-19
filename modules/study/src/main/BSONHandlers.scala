@@ -1,22 +1,21 @@
 package lila.study
 
-import chess.format.pgn.{ Glyph, Glyphs, Tag, Tags }
-import chess.format.{ FEN, Uci, UciCharPair }
-import chess.variant.{ Crazyhouse, Variant }
-import chess.{ Centis, Pos, PromotableRole, Role }
+import chess.format.pgn.{Glyph, Glyphs, Tag, Tags}
+import chess.format.{FEN, Uci, UciCharPair}
+import chess.variant.{Crazyhouse, Variant}
+import chess.{Centis, Pos, PromotableRole, Role, UniquePiece}
 import org.joda.time.DateTime
 import reactivemongo.api.bson._
+
 import scala.util.Success
 import scala.util.Try
-
 import lila.db.BSON
-import lila.db.BSON.{ Reader, Writer }
+import lila.db.BSON.{Reader, Writer}
 import lila.db.dsl._
 import lila.game.BSONHandlers.FENBSONHandler
 import lila.tree.Eval
 import lila.tree.Eval.Score
-import lila.tree.Node.{ Comment, Comments, Gamebook, Shape, Shapes }
-
+import lila.tree.Node.{Comment, Comments, Gamebook, Shape, Shapes}
 import lila.common.Iso
 
 object BSONHandlers {
@@ -126,8 +125,8 @@ object BSONHandlers {
           ),
           pieceMap = Map.empty,
           listOfOuts = Set.empty,
-          listOfTurnsAndUniquPiecesMoved = Map.empty
-
+          listOfTurnsAndUniquPiecesMoved = Map.empty,
+          listOfOutPos = Seq.empty
         )
       def writes(w: Writer, s: Crazyhouse.Data) =
         $doc(
