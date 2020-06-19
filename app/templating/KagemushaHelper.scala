@@ -8,7 +8,7 @@ object KagemushaHelper {
 
   val maybeKing = "maybeKing"
 
-  def additionalIds(uPiece: UniquePiece, crazyData: Option[Kagemusha.Data]) = crazyData match {
+  def additionalIds(uPiece: UniquePiece, crazyData: Option[Crazyhouse.Data]) = crazyData match {
     case Some(cData) => {
       val v1 = if(! cData.listOfOuts.contains(uPiece)) maybeKing else ""
       // val v2 = if(! cData.recentlyMoved(3).contains(uPiece)) "🛏️" else ""
