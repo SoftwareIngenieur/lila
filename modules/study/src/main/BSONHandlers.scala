@@ -123,7 +123,11 @@ object BSONHandlers {
           pockets = Crazyhouse.Pockets(
             white = readPocket(r.strD("w")),
             black = readPocket(r.strD("b"))
-          )
+          ),
+          pieceMap = Map.empty,
+          listOfOuts = Set.empty,
+          listOfTurnsAndUniquPiecesMoved = Map.empty
+
         )
       def writes(w: Writer, s: Crazyhouse.Data) =
         $doc(

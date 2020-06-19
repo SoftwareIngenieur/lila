@@ -338,7 +338,7 @@ object Node {
         fen = FEN(variant.initialFen),
         check = false,
         clock = none,
-        crazyData = variant.crazyhouse option Crazyhouse.Data.init,
+        crazyData = variant.crazyhouse option Crazyhouse.Data.init(Map.empty),
         children = emptyChildren
       )
 

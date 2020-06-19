@@ -88,7 +88,7 @@ final private class ChapterMaker(
           fen = FEN(variant.initialFen),
           check = false,
           clock = none,
-          crazyData = variant.crazyhouse option Crazyhouse.Data.init,
+          crazyData = variant.crazyhouse option Crazyhouse.Data.init(Map.empty),
           children = Node.emptyChildren
         ) -> false
     }) match {
