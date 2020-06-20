@@ -19,7 +19,7 @@ import atomic = require('./atomic');
 import sound = require('./sound');
 import util = require('./util');
 import xhr = require('./xhr');
-import { valid as crazyValid, init as crazyInit, onEnd as crazyEndHook } from './crazy/crazyCtrl';
+import { valid as crazyValid,validButKagemushu as crazyValidButKagemushu, init as crazyInit, onEnd as crazyEndHook } from './crazy/crazyCtrl';
 import { ctrl as makeKeyboardMove, KeyboardMove } from './keyboardMove';
 import renderUser = require('./view/user');
 import cevalSub = require('./cevalSub');
@@ -158,8 +158,17 @@ export default class RoundController {
       if (this.data.game.variant.key === 'atomic') {
         sound.explode();
         atomic.capture(this, dest);
-      } else sound.capture();
-    } else sound.move();
+      } else if (this.data.game.variant.key === 'crazyhouse' ) {
+        sound.explode();
+      }
+      else sound.capture();
+    } else{
+      if (this.data.game.variant.key === 'crazyhouse' ) {
+        sound.explode();
+      }
+      else
+      sound.move();
+    }
   };
 
   private onPremove = (orig: cg.Key, dest: cg.Key, meta: cg.MoveMetadata) => {
@@ -450,7 +459,7 @@ export default class RoundController {
 
   private playPredrop = () => {
     return this.chessground.playPredrop(drop => {
-      return crazyValid(this.data, drop.role, drop.key);
+      return crazyValid(this.data, drop.role, drop.key) && crazyValidButKagemushu(this.data, drop.role, drop.key);
     });
   };
 

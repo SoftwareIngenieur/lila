@@ -25,8 +25,12 @@ export function drag(ctrl: RoundController, e: cg.MouchEvent): void {
 let dropWithKey = false;
 let dropWithDrag = false;
 let mouseIconsLoaded = false;
-
+export function validButKagemushu(data: RoundData, role: cg.Role, key: cg.Key): boolean {
+  console.warn("In validButKagemushu " + data + "," + role + " " + key)
+  return true;
+}
 export function valid(data: RoundData, role: cg.Role, key: cg.Key): boolean {
+  console.log("Crazy Keys (In function valid): " + crazyKeys.toString())
   if (crazyKeys.length === 0) dropWithDrag = true;
   else {
     dropWithKey = true;
