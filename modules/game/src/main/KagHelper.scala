@@ -4,10 +4,25 @@ import chess.{Bishop, Color, King, Knight, Pawn, Piece, Pos, Queen, Rook, Unique
 
 object KagHelper {
   def fromlistOfTurnsAndUniquPiecesMovedStr(str: String):  (Int, Option[UniquePiece]) = {
-    val Seq(turnNo:String, id:String,sym:String)=  str.split(",").toSeq
-    val piece = KagHelper.pieceFromUnicode(sym)
-    val uniquePiece = UniquePiece(Integer.parseInt(id) , piece)
-    (Integer.parseInt(turnNo), Some(uniquePiece))
+    val seq =  str.split(",")
+    if(seq.length == 3){
+    val thruple = (seq(0), seq(1), seq(2))
+     thruple match {
+       case (turnNo: String, id: String, sym: String) => {
+         val piece = KagHelper.pieceFromUnicode(sym)
+         val uniquePiece = UniquePiece(Integer.parseInt(id), piece)
+         (Integer.parseInt(turnNo), Some(uniquePiece))
+       }
+       case _ => {
+         println(s"ERROR $thruple")
+         (-2,None)
+       }
+     }}
+    else{
+      (-3,None)
+
+    }
+
   }
 
 
@@ -15,7 +30,7 @@ object KagHelper {
    val (id, someUPiece ) = tuple
     someUPiece match {
       case Some(uPiece) =>   id.toString + "," +toUPieceStr(uPiece)
-      case  None => ""
+      case  None => "-3,10000,♞"
     }
 
   }

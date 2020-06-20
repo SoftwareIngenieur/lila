@@ -49,7 +49,7 @@ object BSONHandlers {
         promoted = r.str("t").view.flatMap(chess.Pos.piotr).to(Set),
         pieceMap=  r.str("_pm").split(":").map(KagHelper.toPieceMappings(_)).toMap,
         listOfOuts= r.str("_lo").split(";").map(KagHelper.fromPieceStr(_)).toSet,
-        listOfTurnsAndUniquPiecesMoved =  r.str("_lTU").split("|").map(KagHelper.fromlistOfTurnsAndUniquPiecesMovedStr(_)).toMap,
+        listOfTurnsAndUniquPiecesMoved =  r.str("_lTU").split(":").map(KagHelper.fromlistOfTurnsAndUniquPiecesMovedStr(_)).toMap,
        listOfOutPos=Seq.empty
       )
 
@@ -70,7 +70,7 @@ object BSONHandlers {
           }.toSeq.mkString(""),
         "_pm" -> o.pieceMap.map(KagHelper.toPieceMappingStr(_)).mkString(":"),
         "_lo" -> o.listOfOuts.toSeq.map(KagHelper.toUPieceStr(_)).mkString(";"),
-        "_lTU" -> o.listOfTurnsAndUniquPiecesMoved.map(KagHelper.tolistOfTurnsAndUniquPiecesMovedStr(_)).mkString("|")
+        "_lTU" -> o.listOfTurnsAndUniquPiecesMoved.map(KagHelper.tolistOfTurnsAndUniquPiecesMovedStr(_)).mkString(":")
 
       )
   }
