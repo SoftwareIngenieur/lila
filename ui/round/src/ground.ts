@@ -103,6 +103,7 @@ export function boardOrientation(data: RoundData, flip: boolean): Color {
 }
 
 export function render(ctrl: RoundController) {
+  console.warn("In renderGround function !!!!!!!")
   return h('div.cg-wrap', {
     hook: util.onInsert(el => ctrl.setChessground(Chessground(el, makeConfig(ctrl))))
   });

@@ -1,4 +1,5 @@
 export function json(url: string, init: RequestInit = {}): Promise<any> {
+  console.log("HI I AM IN xhr.ts function json");
   return fetch(url, {
     headers: { 'Accept': 'application/vnd.lichess.v5+json' },
     cache: 'no-cache',

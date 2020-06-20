@@ -42,6 +42,20 @@ const emptyMaterialDiff: MaterialDiff = {
   black: {}
 };
 
+function wrapperRenderGround(vNode: VNode) {
+  console.warn(vNode)
+
+  return vNode;
+}
+/*
+export function render(ctrl: RoundController) {
+  console.warn("In renderGround function !!!!!!!")
+  return h('div.cg-wrap', {
+    hook: util.onInsert(el => ctrl.setChessground(Chessground(el, makeConfig(ctrl))))
+  });
+};
+ */
+
 export function main(ctrl: RoundController): VNode {
   const d = ctrl.data,
     cgState = ctrl.chessground && ctrl.chessground.state,
@@ -66,7 +80,7 @@ export function main(ctrl: RoundController): VNode {
       hook: window.lichess.hasTouchEvents ? undefined :
         util.bind('wheel', (e: WheelEvent) => wheel(ctrl, e), undefined, false)
     }, [
-      renderGround(ctrl),
+      wrapperRenderGround(renderGround(ctrl)),
       promotion.view(ctrl)
     ]),
     crazyView(ctrl, topColor, 'top') || renderMaterial(material[topColor], -score, 'top', checks[topColor]),
