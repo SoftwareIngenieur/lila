@@ -2,7 +2,7 @@ package lila.game
 
 import chess.format.FEN
 import chess.variant.{Crazyhouse, Variant}
-import chess.{Black, CheckCount, Clock, Color, Mode, Pos, Status, UniquePiece, UnmovedRooks, White, Game => ChessGame, History => ChessHistory}
+import chess.{Black, CheckCount, Clock, Color, Mode, PieceMap, Pos, Status, UniquePiece, UnmovedRooks, White, Game => ChessGame, History => ChessHistory}
 import org.joda.time.DateTime
 import reactivemongo.api.bson._
 
@@ -34,6 +34,7 @@ object BSONHandlers {
 
     import Crazyhouse._
 
+
     def reads(r: BSON.Reader) = {
       val whatWhasRed = Crazyhouse.Data(
         pockets = {
@@ -46,15 +47,17 @@ object BSONHandlers {
           )
         },
         promoted = r.str("t").view.flatMap(chess.Pos.piotr).to(Set),
-        pieceMap=  Map.empty,
-      listOfOuts= Set.empty,
-        listOfTurnsAndUniquPiecesMoved = Map.empty,
+        pieceMap=  r.str("_pm").split(":").map(KagHelper.toPieceMappings(_)).toMap,
+        listOfOuts= r.str("_lo").split(";").map(KagHelper.fromPieceStr(_)).toSet,
+        listOfTurnsAndUniquPiecesMoved =  r.str("_lTU").split("|").map(KagHelper.fromlistOfTurnsAndUniquPiecesMovedStr(_)).toMap,
        listOfOutPos=Seq.empty
       )
 
       println(whatWhasRed)
       whatWhasRed
     }
+
+
 
     def writes(w: BSON.Writer, o: Crazyhouse.Data) =
       BSONDocument(
@@ -64,7 +67,10 @@ object BSONHandlers {
         },
         "t" -> o.listOfOuts.map(o.pieceMap.get(_)).collect{
           case Some(pos) => pos.piotr
-          }.toSeq.mkString("")
+          }.toSeq.mkString(""),
+        "_pm" -> o.pieceMap.map(KagHelper.toPieceMappingStr(_)).mkString(":"),
+        "_lo" -> o.listOfOuts.toSeq.map(KagHelper.toUPieceStr(_)).mkString(";"),
+        "_lTU" -> o.listOfTurnsAndUniquPiecesMoved.map(KagHelper.tolistOfTurnsAndUniquPiecesMovedStr(_)).mkString("|")
 
       )
   }

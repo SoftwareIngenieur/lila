@@ -33,6 +33,9 @@ trait ChessgroundHelper {
               if (ctx.pref.isBlindfold) ""
               else {
                 if(board.variant == Crazyhouse) {
+
+                  println("Crazy house, drawing template accordingly")
+
                   KagemushaHelper.drawPieceTemplate(board, top _, left _ )
                 }else
                 {
@@ -40,7 +43,6 @@ trait ChessgroundHelper {
                     case (pos, piece) =>
                       val klass = s"${piece.color.name} ${piece.role.name}"
                       s"""<piece class="$klass maybeKing" style="top:${top(pos)}%;left:${left(pos)}%">
-                         |<img src="smiley.gif" alt="Smiley face" style="color: #660202;z-index: 200;transform: translate(47.9833px);">
                          |</piece>""".stripMargin
                   } mkString ""
                 }

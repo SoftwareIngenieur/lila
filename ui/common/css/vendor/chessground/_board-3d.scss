@@ -116,6 +116,13 @@ $piece-files: (
       .#{$name} .#{to-lower-case($type)}.#{to-lower-case($color)} {
         background-image: img-url('staunton/piece/#{$name}/#{$color}-#{$type}.png');
       }
+      //kagemusha
+
+      .#{$name} .#{to-lower-case($type)}.#{to-lower-case($color)}.kagemushu  {
+        background-image: img-url('staunton/piece/Glass/#{$color}-#{$type}.png');
+      }
+
+
     }
     @if $flips {
       @each $color, $orientation in ('White': 'black', 'Black': 'white') {
@@ -123,9 +130,13 @@ $piece-files: (
           .#{$name} .main-board .orientation-#{$orientation} .#{to-lower-case($type)}.#{to-lower-case($color)} {
             background-image: img-url('staunton/piece/#{$name}/#{$color}-#{$type}-Flipped.png');
           }
+          .#{$name} .main-board .orientation-#{$orientation} .#{to-lower-case($type)}.#{to-lower-case($color)}.kagemushu {
+            background-image: img-url('staunton/piece/Glass/#{$color}-#{$type}-Flipped.png');
+          }
         }
       }
     }
+
   }
 }
 
