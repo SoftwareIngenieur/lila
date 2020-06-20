@@ -42,7 +42,7 @@ trait ChessgroundHelper {
                   board.pieces.map {
                     case (pos, piece) =>
                       val klass = s"${piece.color.name} ${piece.role.name}"
-                      s"""<piece class="$klass maybeKing" style="top:${top(pos)}%;left:${left(pos)}%">
+                      s"""<piece class="$klass" style="top:${top(pos)}%;left:${left(pos)}%">
                          |</piece>""".stripMargin
                   } mkString ""
                 }
