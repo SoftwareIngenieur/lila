@@ -34,8 +34,8 @@ object BSONHandlers {
 
     import Crazyhouse._
 
-    def reads(r: BSON.Reader) =
-      Crazyhouse.Data(
+    def reads(r: BSON.Reader) = {
+      val whatWhasRed = Crazyhouse.Data(
         pockets = {
           val (white, black) = {
             r.str("p").view.flatMap(chess.Piece.fromChar).to(List)
@@ -47,17 +47,13 @@ object BSONHandlers {
         },
         promoted = r.str("t").view.flatMap(chess.Pos.piotr).to(Set),
         pieceMap=  Map.empty,
-     //   pieceMap = r.getsD[(UniquePiece,Pos)]("pm").toMap,
       listOfOuts= Set.empty,
         listOfTurnsAndUniquPiecesMoved = Map.empty,
-       listOfOutPos=r.getsD[String]("dec").map(Pos.posAt(_)).collect{case Some(pos) => pos}.toSeq
-      //  listOfTurnsAndUniquPiecesMoved = r.getsD[(Int,Option[UniquePiece])]("frz").toMap
+       listOfOutPos=Seq.empty
       )
 
-    def getListOfOutPos(o: Data): List[String] = {
-      o.listOfOuts.map(o.pieceMap.get(_)).collect{
-        case Some(pos) => pos.key
-      }.toSeq.toList
+      println(whatWhasRed)
+      whatWhasRed
     }
 
     def writes(w: BSON.Writer, o: Crazyhouse.Data) =
@@ -66,11 +62,10 @@ object BSONHandlers {
           o.pockets.white.roles.map(_.forsythUpper).mkString +
             o.pockets.black.roles.map(_.forsyth).mkString
         },
-        "t" -> o.promoted.map(_.piotr).mkString,
-      //  "pm" -> w.listO(o.pieceMap.toList),
-        "dec" ->   w.strListO(getListOfOutPos(o))
+        "t" -> o.listOfOuts.map(o.pieceMap.get(_)).collect{
+          case Some(pos) => pos.piotr
+          }.toSeq.mkString("")
 
-      //  "frz" -> w.listO(o.listOfTurnsAndUniquPiecesMoved.toList)
       )
   }
 

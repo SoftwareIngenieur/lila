@@ -26,11 +26,15 @@ object KagemushaHelper {
     "}</style>"
 
   def drawPieceTemplate(board: Board, top: Pos => Double, left: Pos => Double) = {
+    def echo(p:Pos ) = left(p) + 0.4
     board.crazyData.map(_.pieceMap).getOrElse(Map.empty) map {
       case (uPiece, pos) => {
         val klass = s"${uPiece.genericPiece.color.name} ${uPiece.genericPiece.role.name}"
         val additionalVariantIdentifiers = additionalIds(uPiece, board.crazyData)
-        s"""<piece class="$klass $additionalVariantIdentifiers" style="top:${top(pos)}%;left:${left(pos)}%" ></piece>"""
+        s"""<piece class="$klass $additionalVariantIdentifiers" style="top:${top(pos)}%;left:${left(pos)}%" >
+           |<img src="smiley.gif" alt="👑👑👑👑👑👑" style="color: #660202;z-index: 200;transform: translate(0.9833px);">
+           |</piece>
+           |<piece class="$klass " style="top:${top(pos)}%;left:${echo(pos)}%" ></piece>""".stripMargin
       }
     } mkString ""
   }

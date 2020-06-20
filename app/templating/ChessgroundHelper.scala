@@ -25,15 +25,7 @@ trait ChessgroundHelper {
           else {
             def top(p: Pos)  = orient.fold(8 - p.y, p.y - 1) * 12.5
             def left(p: Pos) = orient.fold(p.x - 1, 8 - p.x) * 12.5
-            val highlights = ctx.pref.highlight ?? lastMove.distinct.map { pos =>
-              s"""<square class="last-move" style="background: radial-gradient(ellipse at center, rgba(255, 0, 0, 1) 0%, rgba(231, 0, 0, 1) 25%, rgba(169, 0, 0, 0) 89%, rgba(158, 0, 0, 0) 100%);
-                 | top:${top(pos)}%;left:${left(pos)}%"></square>""".stripMargin
-            } mkString ""
-            val nonOuted = board.pieces.map {
-              case (pos, piece) if piece.isMajor =>
-                s"""<square style="top:${top(pos)}%;left:${left(pos)}%"></square>"""
-case _ => ""
-            }
+
             val pieces =
               if (ctx.pref.isBlindfold) ""
               else {
@@ -44,7 +36,9 @@ case _ => ""
                   board.pieces.map {
                     case (pos, piece) =>
                       val klass = s"${piece.color.name} ${piece.role.name}"
-                      s"""<piece class="$klass maybeKing" style="top:${top(pos)}%;left:${left(pos)}%"></piece>"""
+                      s"""<piece class="$klass maybeKing" style="top:${top(pos)}%;left:${left(pos)}%">
+                         |<img src="smiley.gif" alt="Smiley face" style="color: #660202;z-index: 200;transform: translate(47.9833px);">
+                         |</piece>""".stripMargin
                   } mkString ""
                 }
               }
