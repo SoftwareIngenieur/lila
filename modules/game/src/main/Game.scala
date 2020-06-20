@@ -779,7 +779,8 @@ object Game {
     val rated             = "ra"
     val analysed          = "an"
     val variant           = "v"
-    val crazyData         = "chd"
+    val crazyData         = "chd" //todo
+    val kagemushaData     = "kmd"
     val bookmarks         = "bm"
     val createdAt         = "ca"
     val movedAt           = "ua" // ua = updatedAt (bc)
@@ -794,6 +795,7 @@ object Game {
     val initialFen        = "if"
     val checkAt           = "ck"
     val perfType          = "pt" // only set on student games for aggregation
+
   }
 }
 
