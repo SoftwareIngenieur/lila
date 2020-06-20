@@ -36,10 +36,17 @@ object KagHelper {
   }
 
   def fromPieceStr(str: String): UniquePiece = {
-   val Seq(id:String,sym:String)=  str.split(",").toSeq
-    val piece = KagHelper.pieceFromUnicode(sym)
-    val uniquePiece = UniquePiece(Integer.parseInt(id) , piece)
-    uniquePiece
+ val splitted = str.split(",")
+    if(splitted.length == 2) {
+      val Seq(id: String, sym: String) = Seq(splitted(0), splitted(1))
+      val piece = KagHelper.pieceFromUnicode(sym)
+      val uniquePiece = UniquePiece(Integer.parseInt(id), piece)
+      uniquePiece
+    }
+    else {
+      println(s"ERROR fromPieceStr $str")
+      UniquePiece(10001,pieceFromUnicode("♘"))
+    }
   }
 
   def toUPieceStr(piece: UniquePiece): String = {
