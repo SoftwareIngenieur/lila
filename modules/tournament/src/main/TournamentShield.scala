@@ -207,7 +207,7 @@ object TournamentShield {
 
     case object Crazyhouse
         extends Category(
-          of = Right(chess.variant.Crazyhouse),
+          of = Right(chess.variant.crazy.Crazyhouse),
           iconChar = ''
         )
 

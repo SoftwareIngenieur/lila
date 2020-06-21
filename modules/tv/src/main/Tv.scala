@@ -162,10 +162,10 @@ object Tv {
         )
     case object Crazyhouse
         extends Channel(
-          name = V.Crazyhouse.name,
+          name = chess.variant.crazy.Crazyhouse.name,
           icon = P.Crazyhouse.iconChar.toString,
           secondsSinceLastMove = freshBlitz,
-          filters = Seq(variant(V.Crazyhouse), noBot)
+          filters = Seq(variant(chess.variant.crazy.Crazyhouse), noBot)
         )
     case object UltraBullet
         extends Channel(

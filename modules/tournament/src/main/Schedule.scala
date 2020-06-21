@@ -2,6 +2,7 @@ package lila.tournament
 
 import chess.StartingPosition
 import chess.variant.Variant
+import chess.variant.crazy._
 import org.joda.time.DateTime
 import play.api.i18n.Lang
 
@@ -354,9 +355,10 @@ object Schedule {
 
         case _ => 0
       }
+      import chess.variant.crazy._
 
       val minRating = (s.freq, s.variant) match {
-        case (Weekend, chess.variant.Crazyhouse) => 2100
+        case (Weekend, Crazyhouse) => 2100
         case (Weekend, _)                        => 2200
         case _                                   => 0
       }

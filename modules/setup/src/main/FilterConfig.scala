@@ -59,7 +59,7 @@ object FilterConfig {
     chess.variant.Atomic,
     chess.variant.Horde,
     chess.variant.RacingKings,
-    chess.variant.Crazyhouse
+    chess.variant.crazy.Crazyhouse
   )
 
   val default = FilterConfig(

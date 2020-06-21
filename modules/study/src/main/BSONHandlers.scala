@@ -2,7 +2,8 @@ package lila.study
 
 import chess.format.pgn.{Glyph, Glyphs, Tag, Tags}
 import chess.format.{FEN, Uci, UciCharPair}
-import chess.variant.{Crazyhouse, Variant}
+import chess.variant.{Variant}
+import chess.variant.crazy._
 import chess.{Centis, Pos, PromotableRole, Role, UniquePiece}
 import org.joda.time.DateTime
 import reactivemongo.api.bson._
@@ -111,24 +112,25 @@ object BSONHandlers {
     isoHandler[Comments, List[Comment]]((s: Comments) => s.value, Comments(_))
 
   implicit val GamebookBSONHandler = Macros.handler[Gamebook]
+import chess.variant.crazy._
+  implicit private def CrazyDataBSONHandler: BSON[CrazyhouseData] =
+    new BSON[CrazyhouseData] {
+      import chess.variant.crazy._
 
-  implicit private def CrazyDataBSONHandler: BSON[Crazyhouse.Data] =
-    new BSON[Crazyhouse.Data] {
-      private def writePocket(p: Crazyhouse.Pocket) = p.roles.map(_.forsyth).mkString
-      private def readPocket(p: String)             = Crazyhouse.Pocket(p.view.flatMap(chess.Role.forsyth).toList)
+      private def writePocket(p: Pocket) = p.roles.map(_.forsyth).mkString
+      private def readPocket(p: String)             = Pocket(p.view.flatMap(chess.Role.forsyth).toList)
       def reads(r: Reader) =
-        Crazyhouse.Data(
+        CrazyhouseData(
           promoted = r.getsD[Pos]("o").toSet,
-          pockets = Crazyhouse.Pockets(
+          pockets = Pockets(
             white = readPocket(r.strD("w")),
             black = readPocket(r.strD("b"))
           ),
           pieceMap = Map.empty,
           listOfOuts = Set.empty,
-          listOfTurnsAndUniquPiecesMoved = Map.empty,
-          listOfOutPos = Seq.empty
+          listOfTurnsAndUniquPiecesMoved = LastThreeMoves(None,None,None,None,None,None)
         )
-      def writes(w: Writer, s: Crazyhouse.Data) =
+      def writes(w: Writer, s: CrazyhouseData) =
         $doc(
           "o" -> w.listO(s.promoted.toList),
           "w" -> w.strO(writePocket(s.pockets.white)),
@@ -190,7 +192,7 @@ object BSONHandlers {
         gamebook = r.getO[Gamebook]("ga"),
         glyphs = r.getO[Glyphs]("g") | Glyphs.empty,
         score = r.getO[Score]("e"),
-        crazyData = r.getO[Crazyhouse.Data]("z"),
+        crazyData = r.getO[CrazyhouseData]("z"),
         clock = r.getO[Centis]("l"),
         children =
           try {
@@ -234,7 +236,7 @@ object BSONHandlers {
         glyphs = r.getO[Glyphs]("g") | Glyphs.empty,
         score = r.getO[Score]("e"),
         clock = r.getO[Centis]("l"),
-        crazyData = r.getO[Crazyhouse.Data]("z"),
+        crazyData = r.getO[CrazyhouseData]("z"),
         children = r.get[Node.Children]("n")
       )
     def writes(w: Writer, s: Root) =

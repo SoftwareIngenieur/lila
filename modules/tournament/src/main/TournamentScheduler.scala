@@ -15,6 +15,7 @@ final private class TournamentScheduler(
   import Schedule.Freq._
   import Schedule.Speed._
   import Schedule.Plan
+  import chess.variant.crazy._
   import chess.variant._
 
   implicit def ec = context.dispatcher

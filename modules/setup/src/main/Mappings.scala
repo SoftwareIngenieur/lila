@@ -18,7 +18,7 @@ private object Mappings {
   val boardApiVariants = Set(
     V.Standard.key,
     V.Chess960.key,
-    V.Crazyhouse.key,
+    V.crazy.Crazyhouse.key,
     V.KingOfTheHill.key,
     V.ThreeCheck.key,
     V.Antichess.key,

@@ -250,7 +250,7 @@ object Node {
       glyphs: Glyphs = Glyphs.empty,
       score: Option[Score] = None,
       clock: Option[Centis],
-      crazyData: Option[Crazyhouse.Data],
+      crazyData: Option[CrazyhouseData],
       children: Children
   ) extends RootOrNode {
 
@@ -329,6 +329,7 @@ object Node {
 
     override def toString = "ROOT"
   }
+  import chess.variant.crazy._
 
   object Root {
 
@@ -338,7 +339,7 @@ object Node {
         fen = FEN(variant.initialFen),
         check = false,
         clock = none,
-        crazyData = variant.crazyhouse option Crazyhouse.Data.init(Map.empty),
+        crazyData = variant.crazyhouse option CrazyhouseData.init(Map.empty),
         children = emptyChildren
       )
 
