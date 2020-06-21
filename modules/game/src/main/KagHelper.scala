@@ -1,39 +1,49 @@
 package lila.game
 
 import chess.{Bishop, Color, King, Knight, Pawn, Piece, Pos, Queen, Rook, UniquePiece}
-
+import chess.variant.crazy._
 object KagHelper {
-  def fromlistOfTurnsAndUniquPiecesMovedStr(str: String):  (Int, Option[UniquePiece]) = {
-    val seq =  str.split(",")
-    if(seq.length == 3){
-    val thruple = (seq(0), seq(1), seq(2))
-     thruple match {
-       case (turnNo: String, id: String, sym: String) => {
-         val piece = KagHelper.pieceFromUnicode(sym)
-         val uniquePiece = UniquePiece(Integer.parseInt(id), piece)
-         (Integer.parseInt(turnNo), Some(uniquePiece))
-       }
-       case _ => {
-         println(s"ERROR $thruple")
-         (-2,None)
-       }
-     }}
-    else{
-      (-3,None)
 
+  def valForLastThreeMoves(numMovesAgo: Int, numMovesEachSide: Int, index: Int,lastThreeEachSide: IndexedSeq[Option[Pos]]): Option[Pos] = {
+    if(numMovesAgo < numMovesEachSide){
+     lastThreeEachSide(index)
+    }else{
+      None
     }
-
   }
 
 
-  def tolistOfTurnsAndUniquPiecesMovedStr(tuple: (Int, Option[UniquePiece])):String = {
-   val (id, someUPiece ) = tuple
-    someUPiece match {
-      case Some(uPiece) =>   id.toString + "," +toUPieceStr(uPiece)
-      case  None => "-3,10000,♞"
-    }
+  def fromlistOfTurnsAndUniquPiecesMovedStr(str: String): LastThreeMoves = {
+    val lastThreeEachSide = str.toSeq.map(Pos.piotr(_))
+    val numMovesEachSide = lastThreeEachSide.length / 2
+    val numExtraMovesWhite = lastThreeEachSide.length % 2
+    LastThreeMoves(
+      valForLastThreeMoves(0, numMovesEachSide, 0+numMovesEachSide , lastThreeEachSide),
+      valForLastThreeMoves(0, numMovesEachSide, 1+numMovesEachSide, lastThreeEachSide),
+      valForLastThreeMoves(0, numMovesEachSide, 2+numMovesEachSide, lastThreeEachSide),
+    valForLastThreeMoves(0, numMovesEachSide+numExtraMovesWhite, 0, lastThreeEachSide),
+    valForLastThreeMoves(0, numMovesEachSide+numExtraMovesWhite, 1, lastThreeEachSide),
+    valForLastThreeMoves(0, numMovesEachSide+numExtraMovesWhite, 2, lastThreeEachSide))
+
+
 
   }
+
+  import chess.variant.crazy._
+
+  def tolistOfTurnsAndUniquPiecesMovedStr(lastThree: LastThreeMoves):String =
+    lastThree match {
+      case LastThreeMoves(b1, b2, b3, w1, w2, w3) =>
+        w1.map(_.piotr.toString).getOrElse("") +
+          w2.map(_.piotr.toString).getOrElse("") +
+          w3.map(_.piotr.toString).getOrElse("") +
+          b1.map(_.piotr.toString).getOrElse("") +
+          b2.map(_.piotr.toString).getOrElse("") +
+          b3.map(_.piotr.toString).getOrElse("")
+    }
+
+
+
 
   def fromPieceStr(str: String): UniquePiece = {
  val splitted = str.split(",")

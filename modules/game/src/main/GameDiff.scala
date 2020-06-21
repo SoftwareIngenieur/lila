@@ -81,7 +81,7 @@ object GameDiff {
         dOpt(
           crazyData,
           _.board.crazyData,
-          (o: Option[chess.variant.Crazyhouse.Data]) => o map BSONHandlers.crazyhouseDataBSONHandler.write
+          (o: Option[chess.variant.crazy.CrazyhouseData]) => o map BSONHandlers.crazyhouseDataBSONHandler.write
         )
     }
     d(turns, _.turns, w.int)

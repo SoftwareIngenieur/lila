@@ -4,7 +4,7 @@ import play.api.data._
 import play.api.data.Forms._
 import play.api.data.validation.{ Constraint, Constraints }
 import lila.user.User
-
+import chess.variant.crazy._
 import chess.StartingPosition
 import lila.common.Form._
 
@@ -77,7 +77,7 @@ object SimulForm {
               chess.variant.Atomic.id,
               chess.variant.Horde.id,
               chess.variant.RacingKings.id,
-              chess.variant.Crazyhouse.id
+              Crazyhouse.id
             ) contains _
           )
         }.verifying("At least one variant", _.nonEmpty),

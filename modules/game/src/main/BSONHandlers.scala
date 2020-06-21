@@ -1,7 +1,9 @@
 package lila.game
 
 import chess.format.FEN
-import chess.variant.{Crazyhouse, Variant}
+import chess.variant.{Variant}
+import chess.variant.crazy._
+
 import chess.{Black, CheckCount, Clock, Color, Mode, PieceMap, Pos, Status, UniquePiece, UnmovedRooks, White, Game => ChessGame, History => ChessHistory}
 import org.joda.time.DateTime
 import reactivemongo.api.bson._
@@ -30,13 +32,13 @@ object BSONHandlers {
     x => ByteArrayBSONHandler.writeTry(BinaryFormat.unmovedRooks write x).get
   )
 
-  implicit private[game] val crazyhouseDataBSONHandler = new BSON[Crazyhouse.Data] {
+  implicit private[game] val crazyhouseDataBSONHandler = new BSON[CrazyhouseData] {
 
-    import Crazyhouse._
+    import chess.variant.crazy._
 
 
     def reads(r: BSON.Reader) = {
-      val whatWhasRed = Crazyhouse.Data(
+      val whatWhasRed = CrazyhouseData(
         pockets = {
           val (white, black) = {
             r.str("p").view.flatMap(chess.Piece.fromChar).to(List)
@@ -49,8 +51,7 @@ object BSONHandlers {
         promoted = r.str("t").view.flatMap(chess.Pos.piotr).to(Set),
         pieceMap=  r.str("_pm").split(":").map(KagHelper.toPieceMappings(_)).toMap,
         listOfOuts= r.str("_lo").split(";").map(KagHelper.fromPieceStr(_)).toSet,
-        listOfTurnsAndUniquPiecesMoved =  r.str("_lTU").split(":").map(KagHelper.fromlistOfTurnsAndUniquPiecesMovedStr(_)).toMap,
-       listOfOutPos=Seq.empty
+        listOfTurnsAndUniquPiecesMoved = KagHelper.fromlistOfTurnsAndUniquPiecesMovedStr(r.str("_lTU"))
       )
 
       println(whatWhasRed)
@@ -59,7 +60,7 @@ object BSONHandlers {
 
 
 
-    def writes(w: BSON.Writer, o: Crazyhouse.Data) =
+    def writes(w: BSON.Writer, o: CrazyhouseData) =
       BSONDocument(
         "p" -> {
           o.pockets.white.roles.map(_.forsythUpper).mkString +
@@ -70,7 +71,7 @@ object BSONHandlers {
           }.toSeq.mkString(""),
         "_pm" -> o.pieceMap.map(KagHelper.toPieceMappingStr(_)).mkString(":"),
         "_lo" -> o.listOfOuts.toSeq.map(KagHelper.toUPieceStr(_)).mkString(";"),
-        "_lTU" -> o.listOfTurnsAndUniquPiecesMoved.map(KagHelper.tolistOfTurnsAndUniquPiecesMovedStr(_)).mkString(":")
+        "_lTU" -> KagHelper.tolistOfTurnsAndUniquPiecesMovedStr(o.listOfTurnsAndUniquPiecesMoved)
 
       )
   }
@@ -127,7 +128,7 @@ object BSONHandlers {
               } else Game.emptyCheckCount
             ),
             variant = gameVariant,
-            crazyData = gameVariant.crazyhouse option r.get[Crazyhouse.Data](F.crazyData)
+            crazyData = gameVariant.crazyhouse option r.get[CrazyhouseData](F.crazyData)
           ),
           color = turnColor
         ),

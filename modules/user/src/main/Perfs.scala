@@ -212,7 +212,7 @@ case object Perfs {
       case chess.variant.Atomic        => Some(_.atomic)
       case chess.variant.Horde         => Some(_.horde)
       case chess.variant.RacingKings   => Some(_.racingKings)
-      case chess.variant.Crazyhouse    => Some(_.crazyhouse)
+      case chess.variant.crazy.Crazyhouse    => Some(_.crazyhouse)
       case _                           => none
     }
 

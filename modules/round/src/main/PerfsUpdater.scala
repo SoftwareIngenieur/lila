@@ -42,7 +42,7 @@ final class PerfsUpdater(
                 updateRatings(ratingsW.horde, ratingsB.horde, result)
               case chess.variant.RacingKings =>
                 updateRatings(ratingsW.racingKings, ratingsB.racingKings, result)
-              case chess.variant.Crazyhouse =>
+              case chess.variant.crazy.Crazyhouse =>
                 updateRatings(ratingsW.crazyhouse, ratingsB.crazyhouse, result)
               case chess.variant.Standard =>
                 game.speed match {

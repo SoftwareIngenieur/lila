@@ -1,7 +1,7 @@
 package lila.app
 package templating
 
-import chess.variant.Crazyhouse
+import chess.variant.crazy._
 import chess.{Board, Pos, UniquePiece}
 import lila.app.ui.ScalatagsTemplate.s
 
@@ -9,7 +9,7 @@ object KagemushaHelper {
 
   val maybeKing = "kagamushu"
 
-  def additionalIds(uPiece: UniquePiece, crazyData: Option[Crazyhouse.Data]) = crazyData match {
+  def additionalIds(uPiece: UniquePiece, crazyData: Option[CrazyhouseData]) = crazyData match {
     case Some(cData) => {
       val v1 = if(! cData.listOfOuts.contains(uPiece)) maybeKing else ""
       // val v2 = if(! cData.recentlyMoved(3).contains(uPiece)) "🛏️" else ""

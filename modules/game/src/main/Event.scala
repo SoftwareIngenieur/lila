@@ -1,8 +1,9 @@
 package lila.game
 
+
 import play.api.libs.json._
 
-import chess.variant.Crazyhouse
+import chess.variant.crazy._
 import chess.{
   Centis,
   PromotableRole,
@@ -17,6 +18,7 @@ import chess.{
 import JsonView._
 import lila.chat.{ PlayerLine, UserLine }
 import lila.common.ApiVersion
+
 
 sealed trait Event {
   def typ: String
@@ -48,7 +50,7 @@ object Event {
         clock: Option[ClockEvent],
         possibleMoves: Map[Pos, List[Pos]],
         possibleDrops: Option[List[Pos]],
-        crazyData: Option[Crazyhouse.Data]
+        crazyData: Option[CrazyhouseData]
     )(extra: JsObject) = {
       extra ++ Json
         .obj(
@@ -84,7 +86,7 @@ object Event {
       clock: Option[ClockEvent],
       possibleMoves: Map[Pos, List[Pos]],
       possibleDrops: Option[List[Pos]],
-      crazyData: Option[Crazyhouse.Data]
+      crazyData: Option[CrazyhouseData]
   ) extends Event {
     def typ = "move"
     def data =
@@ -106,7 +108,7 @@ object Event {
         situation: Situation,
         state: State,
         clock: Option[ClockEvent],
-        crazyData: Option[Crazyhouse.Data]
+        crazyData: Option[CrazyhouseData]
     ): Move =
       Move(
         orig = move.orig,
@@ -140,7 +142,7 @@ object Event {
       state: State,
       clock: Option[ClockEvent],
       possibleMoves: Map[Pos, List[Pos]],
-      crazyData: Option[Crazyhouse.Data],
+      crazyData: Option[CrazyhouseData],
       possibleDrops: Option[List[Pos]]
   ) extends Event {
     def typ = "drop"
@@ -160,7 +162,7 @@ object Event {
         situation: Situation,
         state: State,
         clock: Option[ClockEvent],
-        crazyData: Option[Crazyhouse.Data]
+        crazyData: Option[CrazyhouseData]
     ): Drop =
       Drop(
         role = drop.piece.role,

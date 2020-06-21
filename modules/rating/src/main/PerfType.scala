@@ -153,7 +153,7 @@ object PerfType {
       extends PerfType(
         18,
         key = "crazyhouse",
-        name = chess.variant.Crazyhouse.name,
+        name = chess.variant.crazy.Crazyhouse.name,
         title = "Crazyhouse variant",
         iconChar = ''
       )
@@ -243,7 +243,7 @@ object PerfType {
 
   def variantOf(pt: PerfType): chess.variant.Variant =
     pt match {
-      case Crazyhouse    => chess.variant.Crazyhouse
+      case Crazyhouse    => chess.variant.crazy.Crazyhouse
       case Chess960      => chess.variant.Chess960
       case KingOfTheHill => chess.variant.KingOfTheHill
       case ThreeCheck    => chess.variant.ThreeCheck
@@ -256,7 +256,7 @@ object PerfType {
 
   def byVariant(variant: chess.variant.Variant): Option[PerfType] =
     variant match {
-      case chess.variant.Crazyhouse    => Crazyhouse.some
+      case chess.variant.crazy.Crazyhouse    => Crazyhouse.some
       case chess.variant.Chess960      => Chess960.some
       case chess.variant.KingOfTheHill => KingOfTheHill.some
       case chess.variant.ThreeCheck    => ThreeCheck.some

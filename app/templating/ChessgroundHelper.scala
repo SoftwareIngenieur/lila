@@ -1,11 +1,12 @@
 package lila.app
 package templating
 
-import chess.variant.Crazyhouse
+import chess.variant.crazy._
 import chess.{Board, Color, Pos}
 import lila.api.Context
 import lila.app.ui.ScalatagsTemplate._
 import lila.game.Pov
+
 
 trait ChessgroundHelper {
 

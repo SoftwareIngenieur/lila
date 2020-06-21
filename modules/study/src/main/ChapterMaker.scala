@@ -2,7 +2,8 @@ package lila.study
 
 import chess.format.pgn.Tags
 import chess.format.{ FEN, Forsyth }
-import chess.variant.{ Crazyhouse, Variant }
+import chess.variant.{  Variant }
+import chess.variant.crazy._
 import lila.chat.{ Chat, ChatApi }
 import lila.game.{ Game, Namer }
 import lila.user.User
@@ -88,7 +89,7 @@ final private class ChapterMaker(
           fen = FEN(variant.initialFen),
           check = false,
           clock = none,
-          crazyData = variant.crazyhouse option Crazyhouse.Data.init(Map.empty),
+          crazyData = variant.crazyhouse option CrazyhouseData.init(Map.empty),
           children = Node.emptyChildren
         ) -> false
     }) match {
