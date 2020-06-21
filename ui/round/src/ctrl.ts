@@ -164,7 +164,7 @@ export default class RoundController {
       else sound.capture();
     } else{
       if (this.data.game.variant.key === 'crazyhouse' ) {
-        sound.explode();
+        sound.move();
       }
       else
       sound.move();

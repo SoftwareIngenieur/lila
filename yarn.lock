@@ -821,6 +821,9 @@ chessground@^7.6:
   resolved "https://registry.yarnpkg.com/chessground/-/chessground-7.6.13.tgz#445283fd2ec07882c8cd5966c780d0f77c9b7e5a"
   integrity sha512-Kn53Fe9jItY9NCA9xW5CIhbFwmekw6YrULC5QdTPHpcPIw/vA/bzstDkKRLAH0wNPvwjfAeADlCFfXmS7YtBqg==
 
+"chessground@file:../chessground":
+  version "7.6.14"
+
 chessops@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/chessops/-/chessops-0.4.1.tgz#1afa2f513203623c7f483602d1f7e7dac3ce0ef6"

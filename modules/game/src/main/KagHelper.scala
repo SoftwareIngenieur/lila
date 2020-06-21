@@ -5,7 +5,7 @@ import chess.variant.crazy._
 object KagHelper {
 
   def valForLastThreeMoves(numMovesAgo: Int, numMovesEachSide: Int, index: Int,lastThreeEachSide: IndexedSeq[Option[Pos]]): Option[Pos] = {
-    if(numMovesAgo < numMovesEachSide){
+    if(numMovesAgo < numMovesEachSide  ){
      lastThreeEachSide(index)
     }else{
       None
@@ -19,11 +19,11 @@ object KagHelper {
     val numExtraMovesWhite = lastThreeEachSide.length % 2
     LastThreeMoves(
       valForLastThreeMoves(0, numMovesEachSide, 0+numMovesEachSide , lastThreeEachSide),
-      valForLastThreeMoves(0, numMovesEachSide, 1+numMovesEachSide, lastThreeEachSide),
-      valForLastThreeMoves(0, numMovesEachSide, 2+numMovesEachSide, lastThreeEachSide),
+      valForLastThreeMoves(1, numMovesEachSide, 1+numMovesEachSide, lastThreeEachSide),
+      valForLastThreeMoves(2, numMovesEachSide, 2+numMovesEachSide, lastThreeEachSide),
     valForLastThreeMoves(0, numMovesEachSide+numExtraMovesWhite, 0, lastThreeEachSide),
-    valForLastThreeMoves(0, numMovesEachSide+numExtraMovesWhite, 1, lastThreeEachSide),
-    valForLastThreeMoves(0, numMovesEachSide+numExtraMovesWhite, 2, lastThreeEachSide))
+    valForLastThreeMoves(1, numMovesEachSide+numExtraMovesWhite, 1, lastThreeEachSide),
+    valForLastThreeMoves(2, numMovesEachSide+numExtraMovesWhite, 2, lastThreeEachSide))
 
 
 
