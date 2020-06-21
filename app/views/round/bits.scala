@@ -3,7 +3,8 @@ package round
 
 import scala.util.chaining._
 
-import chess.variant.{ Crazyhouse, Variant }
+import chess.variant.{  Variant }
+import chess.variant.crazy._
 import lila.api.Context
 import lila.app.templating.Environment._
 import lila.app.ui.ScalatagsTemplate._

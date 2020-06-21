@@ -2,7 +2,7 @@ package views
 package html.plan
 
 import play.api.i18n.Lang
-
+import chess.variant.crazy._
 import lila.api.Context
 import lila.app.templating.Environment._
 import lila.app.ui.ScalatagsTemplate._

@@ -2,7 +2,7 @@ package views.html.board
 
 import play.api.libs.json.{ JsObject, Json }
 
-import chess.variant.Crazyhouse
+import chess.variant.crazy.Crazyhouse
 
 import lila.api.Context
 import lila.app.templating.Environment._

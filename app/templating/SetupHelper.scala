@@ -3,6 +3,7 @@ package templating
 
 import chess.{ Mode, Speed }
 import chess.variant.Variant
+import chess.variant.crazy._
 import play.api.i18n.Lang
 
 import lila.i18n.{ I18nKeys => trans }
@@ -125,7 +126,7 @@ trait SetupHelper { self: I18nHelper =>
       encode: Variant => String
   )(implicit lang: Lang): List[SelectChoice] =
     translatedVariantChoices(encode) ::: List(
-      chess.variant.Crazyhouse,
+      chess.variant.crazy.Crazyhouse,
       chess.variant.Chess960,
       chess.variant.KingOfTheHill,
       chess.variant.ThreeCheck,
@@ -142,7 +143,7 @@ trait SetupHelper { self: I18nHelper =>
 
   def translatedAiVariantChoices(implicit lang: Lang) =
     translatedVariantChoices :+
-      variantTupleId(chess.variant.Crazyhouse) :+
+      variantTupleId(chess.variant.crazy.Crazyhouse) :+
       variantTupleId(chess.variant.Chess960) :+
       variantTupleId(chess.variant.KingOfTheHill) :+
       variantTupleId(chess.variant.ThreeCheck) :+

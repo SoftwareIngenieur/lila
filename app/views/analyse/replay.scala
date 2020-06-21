@@ -1,6 +1,6 @@
 package views.html.analyse
 
-import chess.variant.Crazyhouse
+import chess.variant.crazy.Crazyhouse
 import play.api.i18n.Lang
 import play.api.libs.json.Json
 
