@@ -1,7 +1,7 @@
 .sbtopts
 conf/application.conf
 conf/version.conf
-
+package.json
 logs
 project/project
 project/target

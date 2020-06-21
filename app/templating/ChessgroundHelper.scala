@@ -30,6 +30,24 @@ trait ChessgroundHelper {
               s"""<square class="last-move" style="background: radial-gradient(ellipse at center, rgba(255, 0, 0, 1) 0%, rgba(231, 0, 0, 1) 25%, rgba(169, 0, 0, 0) 89%, rgba(158, 0, 0, 0) 100%);
                  | top:${top(pos)}%;left:${left(pos)}%"></square>""".stripMargin
             } mkString ""
+
+
+            val highlightsLastThree = ctx.pref.highlight ?? board.crazyData.map(_.listOfTurnsAndUniquPiecesMoved)
+                .map {
+                  case LastThreeMoves(b1, b2, b3, w1, w2, w3) =>
+                    Seq(b1, b2, b3, w1, w2, w3).zip(Seq("b","b","b","w","w","w")).map {
+
+                      case (Some(pos), letter) =>
+                        s"""<square class="last-move last-move-${letter}" style="background: radial-gradient(ellipse at center,
+                           |rgba(255, 0, 0, 1) 20%,
+                           |rgba(231, 0, 0, 1) 50%,
+                           |rgba(169, 0, 0, 0) 40%,
+                           |rgba(158, 0, 0, 0) 40%);
+                           | top:${top(pos)}%;left:${left(pos)}%"></square>""".stripMargin
+                      case (None,_) => ""
+
+                    } mkString ""
+                }
             val pieces =
               if (ctx.pref.isBlindfold) ""
               else {
@@ -48,7 +66,7 @@ trait ChessgroundHelper {
                   } mkString ""
                 }
               }
-            s"$highlights$pieces"
+            s"$highlightsLastThree$pieces"
 
           }
         }
