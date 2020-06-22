@@ -14,17 +14,13 @@ object KagHelper {
 
 
   def fromlistOfTurnsAndUniquPiecesMovedStr(str: String): LastThreeMoves = {
-    val lastThreeEachSide = str.toSeq.map(Pos.piotr(_))
-    val numMovesEachSide = lastThreeEachSide.length / 2
-    val numExtraMovesWhite = lastThreeEachSide.length % 2
+    val lastThreeEachSide = str.toSeq.map{
+      case "~" => None
+      case otherChar => Pos.piotr(otherChar)
+    }
     LastThreeMoves(
-      valForLastThreeMoves(0, numMovesEachSide, 0+numMovesEachSide , lastThreeEachSide),
-      valForLastThreeMoves(1, numMovesEachSide, 1+numMovesEachSide, lastThreeEachSide),
-      valForLastThreeMoves(2, numMovesEachSide, 2+numMovesEachSide, lastThreeEachSide),
-    valForLastThreeMoves(0, numMovesEachSide+numExtraMovesWhite, 0, lastThreeEachSide),
-    valForLastThreeMoves(1, numMovesEachSide+numExtraMovesWhite, 1, lastThreeEachSide),
-    valForLastThreeMoves(2, numMovesEachSide+numExtraMovesWhite, 2, lastThreeEachSide))
-
+      lastThreeEachSide(0),  lastThreeEachSide(1),  lastThreeEachSide(2),
+      lastThreeEachSide(3),  lastThreeEachSide(4),  lastThreeEachSide(5)),
 
 
   }
@@ -34,12 +30,13 @@ object KagHelper {
   def tolistOfTurnsAndUniquPiecesMovedStr(lastThree: LastThreeMoves):String =
     lastThree match {
       case LastThreeMoves(b1, b2, b3, w1, w2, w3) =>
-        w1.map(_.piotr.toString).getOrElse("") +
-          w2.map(_.piotr.toString).getOrElse("") +
-          w3.map(_.piotr.toString).getOrElse("") +
-          b1.map(_.piotr.toString).getOrElse("") +
-          b2.map(_.piotr.toString).getOrElse("") +
-          b3.map(_.piotr.toString).getOrElse("")
+
+          b1.map(_.piotr.toString).getOrElse("~") +
+          b2.map(_.piotr.toString).getOrElse("~") +
+          b3.map(_.piotr.toString).getOrElse("~")+
+            w1.map(_.piotr.toString).getOrElse("~") +
+            w2.map(_.piotr.toString).getOrElse("~") +
+            w3.map(_.piotr.toString).getOrElse("~")
     }
 
 
