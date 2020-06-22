@@ -46,7 +46,7 @@ trait ChessgroundHelper {
                       case (None,_) => ""
 
                     } mkString ""*/
-                }
+
             val pieces =
               if (ctx.pref.isBlindfold) ""
               else {
