@@ -47,9 +47,10 @@ final class Player(
   private def makeWork(game: Game, level: Int): Fu[Work.Move] =
     if (game.situation playable true) {
       if (game.turns <= maxPlies) gameRepo.initialFen(game) zip uciMemo.get(game) map {
-        println("AI IS PLAYABLE")
+
 
         case (initialFen, moves) =>
+          println("AI IS PLAYABLE")
           Work.Move(
             _id = Work.makeId,
             game = Work.Game(
