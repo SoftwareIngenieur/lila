@@ -20,7 +20,7 @@ object KagHelper {
     }
     LastThreeMoves(
       lastThreeEachSide(0),  lastThreeEachSide(1),  lastThreeEachSide(2),
-      lastThreeEachSide(3),  lastThreeEachSide(4),  lastThreeEachSide(5)),
+      lastThreeEachSide(3),  lastThreeEachSide(4),  lastThreeEachSide(5))
 
 
   }
