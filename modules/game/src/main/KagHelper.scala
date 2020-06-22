@@ -15,7 +15,7 @@ object KagHelper {
 
   def fromlistOfTurnsAndUniquPiecesMovedStr(str: String): LastThreeMoves = {
     val lastThreeEachSide = str.toSeq.map{
-      case "~" => None
+      case '~' => None
       case otherChar => Pos.piotr(otherChar)
     }
     LastThreeMoves(
