@@ -15,7 +15,6 @@ trait ChessgroundHelper {
   private val cgContainer = tag("cg-container")
   private val cgBoard     = tag("cg-board")
   val cgWrapContent       = cgHelper(cgContainer(cgBoard))
-
   def chessground(board: Board, orient: Color, lastMove: List[Pos] = Nil)(implicit ctx: Context): Frag = {
 
     println(board.crazyData.map(_.listOfOuts.mkString(",")).getOrElse(""))
@@ -32,7 +31,7 @@ trait ChessgroundHelper {
             } mkString ""
 
 
-            val highlightsLastThree = ctx.pref.highlight ?? board.crazyData.map(_.listOfTurnsAndUniquPiecesMoved)
+            val highlightsLastThree = "" /* ctx.pref.highlight ?? board.crazyData.map(_.listOfTurnsAndUniquPiecesMoved)
                 .map {
                   case LastThreeMoves(b1, b2, b3, w1, w2, w3) =>
                     Seq(b1, b2, b3, w1, w2, w3).zip(Seq("b","b","b","w","w","w")).map {
@@ -46,7 +45,7 @@ trait ChessgroundHelper {
                            | top:${top(pos)}%;left:${left(pos)}%"></square>""".stripMargin
                       case (None,_) => ""
 
-                    } mkString ""
+                    } mkString ""*/
                 }
             val pieces =
               if (ctx.pref.isBlindfold) ""
@@ -66,7 +65,7 @@ trait ChessgroundHelper {
                   } mkString ""
                 }
               }
-            s"$highlightsLastThree$pieces"
+            s"$highlights$pieces"
 
           }
         }
