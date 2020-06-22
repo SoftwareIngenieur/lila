@@ -45,8 +45,10 @@ final class Player(
       } yield divided.millis
 
   private def makeWork(game: Game, level: Int): Fu[Work.Move] =
-    if (game.situation playable true)
+    if (game.situation playable true) {
       if (game.turns <= maxPlies) gameRepo.initialFen(game) zip uciMemo.get(game) map {
+        println("AI IS PLAYABLE")
+
         case (initialFen, moves) =>
           Work.Move(
             _id = Work.makeId,
@@ -70,5 +72,5 @@ final class Player(
           )
       }
       else fufail(s"[fishnet] Too many moves (${game.turns}), won't play ${game.id}")
-    else fufail(s"[fishnet] invalid position on ${game.id}")
+    } else fufail(s"[fishnet] invalid position on ${game.id}")
 }
