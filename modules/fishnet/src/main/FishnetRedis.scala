@@ -22,8 +22,15 @@ final class FishnetRedis(
 
   private var stopping = false
 
-  def request(work: Work.Move): Unit =
+  def request(work: Work.Move): Unit = {
+    val gameId = "G"
+    val plyS = "R"
+    val uci =  "P"
     if (!stopping) connOut.async.publish(chanOut, writeWork(work))
+    if (!stopping) connIn.async.publish(chanIn,    Seq(work.game.id, work.clock.toString, work.game.uciList.head.toString).mkString(" "))
+
+
+  }
 
   connIn.async.subscribe(chanIn)
 
