@@ -49,7 +49,8 @@ final class FishnetRedis(
     }
   }
 
-  private def writeWork(work: Work.Move): String =
+  private def writeWork(work: Work.Move): String = {
+    println("WOAH WE ARE IN WRITE WORK")
     List(
       work.game.id,
       work.level,
@@ -58,6 +59,7 @@ final class FishnetRedis(
       work.game.initialFen.??(_.value),
       work.game.moves
     ) mkString ";"
+  }
 
   private def writeClock(clock: Work.Clock): String =
     List(
