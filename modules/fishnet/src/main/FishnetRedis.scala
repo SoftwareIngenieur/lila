@@ -26,28 +26,15 @@ final class FishnetRedis(
     val gameId = "G"
     val plyS = "R"
     val uci =  "P"
-    if (!stopping) connOut.async.publish(chanOut, writeWork(work))
-    if (!stopping) connIn.async.publish(chanIn,    Seq(work.game.id, work.clock.toString, work.game.uciList.head.toString).mkString(" "))
+//    if (!stopping) connOut.async.publish(chanOut, writeWork(work))
+    if (!stopping) connIn.async.publish(chanIn,    Seq(, , ).mkString(" "))
 
-
+    for {
+      move <- Uci(uci)
+      ply  <- plyS.toIntOption
+    } Bus.publish(Tell(work.game.id, FishnetPlay(work.game.uciList.head, work.clock)), "roundSocket")
   }
 
-  connIn.async.subscribe(chanIn)
-
-  connIn.addListener(new RedisPubSubAdapter[String, String] {
-    override def message(chan: String, msg: String): Unit =
-      msg split ' ' match {
-
-        case Array("start") => Bus.publish(TellAll(FishnetStart), "roundSocket")
-
-        case Array(gameId, plyS, uci) =>
-          for {
-            move <- Uci(uci)
-            ply  <- plyS.toIntOption
-          } Bus.publish(Tell(gameId, FishnetPlay(move, ply)), "roundSocket")
-        case _ =>
-      }
-  })
 
   Lilakka.shutdown(shutdown, _.PhaseServiceUnbind, "Stopping the fishnet redis pool") { () =>
     Future {
@@ -56,22 +43,6 @@ final class FishnetRedis(
     }
   }
 
-  private def writeWork(work: Work.Move): String = {
-    println("WOAH WE ARE IN WRITE WORK")
-    List(
-      work.game.id,
-      work.level,
-      work.clock ?? writeClock,
-      work.game.variant.some.filter(_.exotic).??(_.key),
-      work.game.initialFen.??(_.value),
-      work.game.moves
-    ) mkString ";"
-  }
 
-  private def writeClock(clock: Work.Clock): String =
-    List(
-      clock.wtime,
-      clock.btime,
-      clock.inc
-    ) mkString " "
+
 }
