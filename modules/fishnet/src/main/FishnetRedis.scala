@@ -27,12 +27,11 @@ final class FishnetRedis(
     val plyS = "R"
     val uci =  "P"
 //    if (!stopping) connOut.async.publish(chanOut, writeWork(work))
-    if (!stopping) connIn.async.publish(chanIn,    Seq(, , ).mkString(" "))
-
+    if (!stopping)
     for {
       move <- Uci(uci)
       ply  <- plyS.toIntOption
-    } Bus.publish(Tell(work.game.id, FishnetPlay(work.game.uciList.head, work.clock)), "roundSocket")
+    } Bus.publish(Tell(work.game.id, FishnetPlay(work.game.uciList.head, work.clock.get.inc)), "roundSocket")
   }
 
 
