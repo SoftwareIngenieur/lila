@@ -127,7 +127,7 @@ import chess.variant.crazy._
             black = readPocket(r.strD("b"))
           ),
           pieceMap = Map.empty,
-          politicalDecoys = Set.empty,
+          listOfOuts = Set.empty,
           listOfTurnsAndUniquPiecesMoved = LastThreeMoves(None,None,None,None,None,None)
         )
       def writes(w: Writer, s: CrazyhouseData) =
