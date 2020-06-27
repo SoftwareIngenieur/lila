@@ -18,6 +18,7 @@ object KagHelper {
       case '~' => None
       case otherChar => Pos.piotr(otherChar)
     }
+    println("str")
     LastThreeMoves(
       lastThreeEachSide(0),  lastThreeEachSide(1),  lastThreeEachSide(2),
       lastThreeEachSide(3),  lastThreeEachSide(4),  lastThreeEachSide(5))
